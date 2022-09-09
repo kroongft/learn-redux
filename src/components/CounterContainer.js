@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { decrease, increase, setDiff } from '../modules/counter';
 import Counter from './Counter';
 
@@ -9,7 +9,11 @@ function CounterContainer() {
   const { number, diff } = useSelector(state => ({
     number: state.counter.number,
     diff: state.counter.diff
-  }));
+  }), shallowEqual);
+
+  // useSelector의 두번째 파라미터는 equalityFn 인데
+  // 이전 값과 다음 값을 비교하여 true가 나오면 리렌더링을 하지 않고, false가 나오면 리렌더링을 합니다.
+  // shallowEqual은 react-redux의 내장함수로써 객체안의 가장 겉에 있는 값들을 모두 비교해줍니다.
 
   // useDispatch는 리덕스 스토어의 dispatch를 함수에서 사용할 수 있게 해주는 Hook입니다.
   const dispatch = useDispatch();
